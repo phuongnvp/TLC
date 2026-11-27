@@ -44,10 +44,10 @@ def load_models():
         return Ensemble(attentive, mpnn)
 
 predictor = load_models()
-page = st.sidebar.radio("TLC Studio", ["Predict Rf", "Find solvent systems", "Natural products"])
-if page in ("Find solvent systems", "Natural products"):
+page = st.sidebar.radio("TLC Studio", ["Predict Rf", "Mobile Phase Suggestions"])
+if page == "Mobile Phase Suggestions":
     from search_page import render_search
-    render_search(predictor, natural_products=page == "Natural products")
+    render_search(predictor, natural_products=True)
     st.stop()
 
 st.title("TLC Studio")

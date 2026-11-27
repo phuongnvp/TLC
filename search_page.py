@@ -5,12 +5,12 @@ from solvent_rules import NATURAL_SOLVENTS, natural_solvent_pool, solvent_label
 
 
 def render_search(ensemble, natural_products=False):
-    st.title("Natural products" if natural_products else "Find solvent systems")
+    st.title("Mobile Phase Suggestions")
     st.markdown('<p class="intro">Search for a mobile phase that brings your molecule close to a target Rf.</p>', unsafe_allow_html=True)
     if natural_products:
-        st.subheader("Common solvents for natural products")
+        #st.subheader("Common solvents for natural products")
         available = natural_solvent_pool(ensemble.solvents)
-        st.write(" · ".join(solvent_label(name) for name in available))
+        #st.write(" · ".join(solvent_label(name) for name in available))
         missing = set(NATURAL_SOLVENTS) - {solvent_label(name) for name in available}
         if missing:
             st.warning("Not supported by the loaded models: " + ", ".join(sorted(missing)))
