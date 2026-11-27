@@ -10,7 +10,7 @@ _ALIASES = {name.casefold(): name for name in NATURAL_SOLVENTS}
 _ALIASES.update({
     "1-butanol": "n-Butanol", "butan-1-ol": "n-Butanol",
     "glacial acetic acid": "Acetic acid", "acetic acid glacial": "Acetic acid",
-    "ammonia solution": "Ammonia", "ammonia": "Ammonia", "NH3": "Ammonia",
+    "ammonia solution": "NH3", "ammonia": "NH3",
 })
 
 
