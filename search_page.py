@@ -1,7 +1,7 @@
 import streamlit as st
 from solvent_search import search
 from run_status import running
-from solvent_rules import NATURAL_SOLVENTS, natural_solvent_pool, solvent_label
+from solvent_rules import NATURAL_SOLVENTS, natural_solvent_pool, solvent_label, display_solvent
 
 
 def render_search(ensemble, natural_products=False):
@@ -11,7 +11,7 @@ def render_search(ensemble, natural_products=False):
         #st.subheader("Common solvents for natural products")
         available = natural_solvent_pool(ensemble.solvents)
         #st.write(" · ".join(solvent_label(name) for name in available))
-        missing = set(NATURAL_SOLVENTS) - {solvent_label(name) for name in available}
+        missing = set(NATURAL_SOLVENTS) - {display_solvent(name) for name in available}
         if missing:
             st.warning("Not supported by the loaded models: " + ", ".join(sorted(missing)))
     smiles = st.text_area("Molecular SMILES", height=100, placeholder="e.g. CCO")

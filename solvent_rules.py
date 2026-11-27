@@ -19,7 +19,8 @@ def solvent_label(name):
 
 
 def display_solvent(name):
-    return "n-Butanol" if solvent_label(name) == "n-Butanol" else name
+    label = solvent_label(name)
+    return {"n-Butanol": "n-Butanol", "NH3": "Ammonia"}.get(label, name)
 
 
 def natural_solvent_pool(available):

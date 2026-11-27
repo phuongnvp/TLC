@@ -108,7 +108,7 @@ def search(ensemble, smiles, target, tolerance=0., count=2, trials=10000, seed=4
             top_indices.append(i)
         ids, percentages = key
         err = abs(cache[key]-target)
-        rows.append({"Solvent system":" + ".join((solvent_label if natural_products else display_solvent)(solvents[i]) for i in ids),
+        rows.append({"Solvent system":" + ".join(display_solvent(solvents[i]) for i in ids),
                      "Ratio (%)":":".join(map(str,percentages)), "Predicted Rf":cache[key],
                      "|ΔRf|":err})
         if tolerance:
