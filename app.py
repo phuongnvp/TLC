@@ -72,9 +72,16 @@ for smiles, names, fractions, result in st.session_state.get("history", []):
 
 smiles = st.text_area("Molecular SMILES", height=100, placeholder="e.g. CC(=O)Oc1ccccc1C(=O)O")
 st.subheader("Mobile phase")
-defaults = [name for name in ("n-Hexane", "Ethyl acetate") if name in predictor.solvents]
+available = [
+    name for name in predictor.solvents
+    if name != "Glacial acetic acid"
+]
+defaults = [
+    name for name in ("n-Hexane", "Ethyl acetate")
+    if name in available
+]
 names = st.multiselect(
-    "Mobile-phase solvents", predictor.solvents, default=defaults,
+    "Mobile-phase solvents", available, default=defaults,
     format_func=display_solvent, key="predict_solvents",
 )
 parts = []
