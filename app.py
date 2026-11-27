@@ -72,17 +72,19 @@ for smiles, names, fractions, result in st.session_state.get("history", []):
 
 smiles = st.text_area("Molecular SMILES", height=100, placeholder="e.g. CC(=O)Oc1ccccc1C(=O)O")
 st.subheader("Mobile phase")
-st.caption("Tick each solvent and enter its relative parts. For a 6:1 mixture, enter 6 and 1.")
-names, parts = [], []
-with st.container(height=340, border=True):
-    for solvent in predictor.solvents:
-        choice, ratio = st.columns([3,2])
-        selected = choice.checkbox(display_solvent(solvent), key=f"predict_solvent_{solvent}")
-        value = ratio.number_input(f"Parts of {solvent}", min_value=0., value=1., step=0.1,
-                                   disabled=not selected, label_visibility="collapsed")
-        if selected:
-            names.append(solvent)
-            parts.append(value)
+defaults = [name for name in ("n-Hexane", "Ethyl acetate") if name in predictor.solvents]
+names = st.multiselect(
+    "Mobile-phase solvents", predictor.solvents, default=defaults,
+    format_func=display_solvent, key="predict_solvents",
+)
+parts = []
+for name in names:
+    default = {"n-Hexane": 7.0, "Ethyl acetate": 3.0}.get(name, 1.0)
+    parts.append(st.number_input(
+        f"Parts of {display_solvent(name)}", min_value=0.0, value=default,
+        step=0.1, key=f"predict_parts_{name}",
+    ))
+st.caption("Enter relative parts: for a 7:3 mixture, use 7 and 3.")
 if st.button("Predict Rf", type="primary", use_container_width=True):
     try:
         with running("Predicting Rf…"):
