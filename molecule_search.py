@@ -33,6 +33,16 @@ def _hash_file(path):
     return digest.hexdigest()
 
 
+def _source_hash_matches(path, expected):
+    """Allow Git's LF/CRLF conversion without accepting other source changes."""
+    raw = path.read_bytes()
+    lf = raw.replace(b"\r\n", b"\n")
+    return any(
+        hashlib.sha256(content).hexdigest() == expected
+        for content in (raw, lf, lf.replace(b"\n", b"\r\n"))
+    )
+
+
 def _read_json(path):
     try:
         with path.open(encoding="utf-8") as stream:
@@ -138,7 +148,7 @@ class EmbeddingDatabase:
             if set(identity["encoding_sha256"]) != {"ensemble.py", "graph_encoding.py"}:
                 raise ValueError("Unsupported embedding encoder metadata.")
             for name, expected in identity["encoding_sha256"].items():
-                if _hash_file(ROOT / name) != expected:
+                if not _source_hash_matches(ROOT / name, expected):
                     raise ValueError(f"Embeddings use a different version of {name}.")
             self.dimensions = identity["dimensions"]
             expected_dimensions = [
