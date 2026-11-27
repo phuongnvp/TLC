@@ -17,6 +17,41 @@ _ALIASES.update({
 def solvent_label(name):
     return _ALIASES.get(name.strip().casefold(), name)
 
+MODIFIER_MAX_PCT = {
+    "Acetic acid": 2,
+    "Formic acid": 2,
+    "NH3": 2,
+    "Triethylamine": 2,
+}
+
+def modifier_limits_ok(names, percentages):
+    return all(
+        pct <= MODIFIER_MAX_PCT.get(solvent_label(name), 100)
+        for name, pct in zip(names, percentages)
+    )
+
+# Extend using a validated miscibility reference.
+WATER_GROUP = {
+    "Acetic acid",
+    "Formic acid",
+    "NH3",
+    "Triethylamine",
+    "Water",
+}
+
+NONPOLAR_GROUP = {
+    "Diethyl ether",
+    "n-Hexane",
+    "Chloroform",
+}
+
+def miscibility_flag(names):
+    labels = {solvent_label(name) for name in names}
+    water_members = labels & WATER_GROUP
+    nonpolar_members = labels & NONPOLAR_GROUP
+    if water_members and nonpolar_members:
+        return "Check miscibility"
+    return "Not assessed"
 
 def display_solvent(name):
     label = solvent_label(name)

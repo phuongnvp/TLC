@@ -7,7 +7,7 @@ import pandas as pd
 import torch
 from graph_encoding import encode_attentive, encode_mpnn
 from ensemble import Batch, WEIGHT, canonicalize_smiles, smiles_to_graph
-from solvent_rules import natural_solvent_pool, natural_choices, solvent_label, display_solvent
+from solvent_rules import natural_solvent_pool, natural_choices, solvent_label, display_solvent, modifier_limits_ok, miscibility_flag
 
 
 @dataclass
@@ -86,6 +86,9 @@ def search(ensemble, smiles, target, tolerance=0., count=2, trials=10000, seed=4
             key = (prefix[:count], parts+(100-sum(parts),))
             for ancestor in path:
                 ancestor.visits += 1
+            names = [solvents[i] for i in key[0]]
+            if natural_products and not modifier_limits_ok(names, key[1]):
+                continue
             pending.append((key,path))
         fresh = list(dict.fromkeys(key for key,_ in pending if key not in cache))
         if fresh:
@@ -111,6 +114,8 @@ def search(ensemble, smiles, target, tolerance=0., count=2, trials=10000, seed=4
         rows.append({"Solvent system":" + ".join(display_solvent(solvents[i]) for i in ids),
                      "Ratio (%)":":".join(map(str,percentages)), "Predicted Rf":cache[key],
                      "|ΔRf|":err})
+        names = [solvents[j] for j in ids]
+        rows[-1]["Miscibility"] = miscibility_flag(names)
         if tolerance:
             rows[-1]["Within range"] = err <= tolerance
     all_mixtures = pd.DataFrame(rows)
