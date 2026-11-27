@@ -33,7 +33,7 @@ def _hash_file(path):
     return digest.hexdigest()
 
 
-def _source_hash_matches(path, expected):
+def _text_hash_matches(path, expected):
     """Allow Git's LF/CRLF conversion without accepting other source changes."""
     raw = path.read_bytes()
     lf = raw.replace(b"\r\n", b"\n")
@@ -41,6 +41,13 @@ def _source_hash_matches(path, expected):
         hashlib.sha256(content).hexdigest() == expected
         for content in (raw, lf, lf.replace(b"\n", b"\r\n"))
     )
+
+
+def _artifact_hash_matches(path, expected):
+    if path.name in ("molecules.csv", "failures.csv"):
+        return _text_hash_matches(path, expected)
+    # Embedding arrays are binary: any byte change must still be rejected.
+    return _hash_file(path) == expected
 
 
 def _read_json(path):
@@ -148,7 +155,7 @@ class EmbeddingDatabase:
             if set(identity["encoding_sha256"]) != {"ensemble.py", "graph_encoding.py"}:
                 raise ValueError("Unsupported embedding encoder metadata.")
             for name, expected in identity["encoding_sha256"].items():
-                if not _source_hash_matches(ROOT / name, expected):
+                if not _text_hash_matches(ROOT / name, expected):
                     raise ValueError(f"Embeddings use a different version of {name}.")
             self.dimensions = identity["dimensions"]
             expected_dimensions = [
@@ -182,7 +189,7 @@ class EmbeddingDatabase:
                 for name, expected in info["sha256"].items():
                     path = folder / name
                     before = _signature(path)
-                    if _hash_file(path) != expected or _signature(path) != before:
+                    if not _artifact_hash_matches(path, expected) or _signature(path) != before:
                         raise ValueError(f"Corrupt or changed embedding file: {folder.name}/{name}")
                     self._signatures[path] = before
                 self._signatures[folder / "chunk.json"] = _signature(folder / "chunk.json")
