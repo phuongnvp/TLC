@@ -11,9 +11,9 @@ def render_search(ensemble, natural_products=False):
         #st.subheader("Common solvents for natural products")
         available = natural_solvent_pool(ensemble.solvents)
         #st.write(" · ".join(solvent_label(name) for name in available))
-        missing = set(NATURAL_SOLVENTS) - {display_solvent(name) for name in available}
-        if missing:
-            st.warning("Not supported by the loaded models: " + ", ".join(sorted(missing)))
+        #missing = set(NATURAL_SOLVENTS) - {display_solvent(name) for name in available}
+        #if missing:
+        #    st.warning("Not supported by the loaded models: " + ", ".join(sorted(missing)))
     smiles = st.text_area("Molecular SMILES", height=100, placeholder="e.g. CCO")
     left, right = st.columns(2)
     target = left.number_input("Target Rf", 0., 1., .50, .01, format="%.3f")
