@@ -1,0 +1,36 @@
+{
+  "created_utc": "2026-11-27T12:58:18.743511+00:00",
+  "identity": {
+    "dataset_rows": 738771,
+    "dataset_sha256": "0d1be84c0c50ef233f948a5c11da76d8c5983f8702b02acaa33e39c322f4c428",
+    "dimensions": [
+      512,
+      256
+    ],
+    "dtype": "float32",
+    "encoding_sha256": {
+      "ensemble.py": "ea738791e6e5a0a09c2f40311310998db02cff06b5b217c44e8746081e72d151",
+      "graph_encoding.py": "65a1386ec815f8b9dd089818883abb59de6098b5399596901fc6450bdcea1c98"
+    },
+    "model_sha256": {
+      "AttentiveFP": "b0ce3c93834d03578d094f7f7b7dc2429fb35892d6dd4d36478c8f27f909d5ba",
+      "MPNN": "54d46ae50ec5027e2a07f9dd43cbfeb4481a9dc5f9436f104cd7f924d2dca4be"
+    },
+    "preprocessor_sha256": "e868b63ef9de9704cac76d842f1084546d0d3d316aa57fce4eb695872111db7b",
+    "schema_version": 1,
+    "versions": {
+      "numpy": "2.4.6",
+      "rdkit": "2026.09.2",
+      "torch": "2.14.1",
+      "torch_geometric": "2.8.1"
+    }
+  },
+  "input_filename": "coconut.csv",
+  "preflight_max_abs_error": {
+    "AttentiveFP": 5.960464477539063e-08,
+    "MPNN": 1.6838312149047852e-06,
+    "Rf": 7.115152915182499e-07
+  },
+  "row_alignment": "Row i in molecules.csv matches row i in both NPY files.",
+  "run_id": "4fd852e95332762d4b198f198cf43c92069e600594328f4be62a89f1c2bc6bca"
+}

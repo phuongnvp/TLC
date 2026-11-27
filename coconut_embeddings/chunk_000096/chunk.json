@@ -1,0 +1,16 @@
+{
+  "batch_size": 32,
+  "created_utc": "2026-11-27T13:20:14.765759+00:00",
+  "embedded": 5000,
+  "failed": 0,
+  "index": 96,
+  "run_id": "4fd852e95332762d4b198f198cf43c92069e600594328f4be62a89f1c2bc6bca",
+  "sha256": {
+    "attentivefp.npy": "785538edaec9dd234febc68ddc74a3ab4262bb310a17625925171a73dc5155d3",
+    "failures.csv": "f0b053ca057b881b3f28b772f87c9c516c31973695491975848777baa407b731",
+    "molecules.csv": "5604609b8ceee6702b329138bf934098dec1871157f1cd44a4763f03fb7a3063",
+    "mpnn.npy": "26af798cc87ed2c09846518a389ee8930fd69cb8b0068ca2529165e5008f2647"
+  },
+  "source_start": 480000,
+  "source_stop": 485000
+}

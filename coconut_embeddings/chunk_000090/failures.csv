@@ -1,0 +1,2 @@
+source_row,identifier,smiles,reason,detail
+453255,CNP0422373.1,C/C=C\[C@H]1C[C@H]2C(=O)O[C@H](C)[C@@H](NC(=O)[C@H](CC3C[C@H]3[NH2+2]([O-])[O-])NC(=O)c3ccc(Cl)n3O)C(=O)NC([C@H](C)c3ccccc3)C(=O)NC(CC3C[C@H]3[NH2+2]([O-])[O-])C(=O)N[C@@H]([C@H](C)c3ccccc3)C(=O)NC([C@@H](C)CC)C(=O)N2C1,invalid_structure,SMILES is empty or invalid

@@ -1,0 +1,2 @@
+source_row,identifier,smiles,reason,detail
+233251,CNP0553545.0,O=[P](=O)(O)P(=O)(=O)(O)P(=O)(=O)(O)P(=O)(=O)(O)P(=O)(=O)(O)[P](=O)(=O)O,invalid_structure,SMILES is empty or invalid

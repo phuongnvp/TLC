@@ -1,0 +1,2 @@
+source_row,identifier,smiles,reason,detail
+643419,CNP0540214.0,[HeH]C(CO)(C(N)=O)c1ccccc1,invalid_structure,SMILES is empty or invalid

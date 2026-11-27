@@ -29,7 +29,8 @@ textarea, [data-testid="stCheckbox"] label p, [data-testid="stNumberInput"] inpu
 def load_models():
     models = Path(__file__).parent / "models"
     mpnn = models / "MPNN.pt"
-    if hashlib.sha256(mpnn.read_bytes()).hexdigest() != "54d46ae50ec5027e2a07f9dd43cbfeb4481a9dc5f9436f104cd7f924d2dca4be":
+    mpnn_hash = hashlib.sha256(mpnn.read_bytes()).hexdigest()
+    if mpnn_hash != "54d46ae50ec5027e2a07f9dd43cbfeb4481a9dc5f9436f104cd7f924d2dca4be":
         raise ValueError("MPNN checkpoint checksum mismatch")
     with TemporaryDirectory() as tmp:
         attentive = Path(tmp) / "AttentiveFP.pt"
@@ -41,10 +42,19 @@ def load_models():
                 output.write(part)
         if digest.hexdigest() != "b0ce3c93834d03578d094f7f7b7dc2429fb35892d6dd4d36478c8f27f909d5ba":
             raise ValueError("AttentiveFP checkpoint checksum mismatch")
-        return Ensemble(attentive, mpnn)
+        ensemble = Ensemble(attentive, mpnn)
+        ensemble.checkpoint_hashes = {
+            "AttentiveFP": digest.hexdigest(),
+            "MPNN": mpnn_hash,
+        }
+        return ensemble
 
 predictor = load_models()
-page = st.sidebar.radio("TLC Studio", ["Predict Rf", "Mobile Phase Suggestions"])
+page = st.sidebar.radio("TLC Studio", ["Predict Rf", "Mobile Phase Suggestions", "Find molecules"])
+if page == "Find molecules":
+    from molecule_search_page import render_molecule_search
+    render_molecule_search(predictor)
+    st.stop()
 if page == "Mobile Phase Suggestions":
     from search_page import render_search
     render_search(predictor, natural_products=True)
