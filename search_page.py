@@ -14,7 +14,7 @@ def render_search(ensemble, natural_products=False):
         #missing = set(NATURAL_SOLVENTS) - {display_solvent(name) for name in available}
         #if missing:
         #    st.warning("Not supported by the loaded models: " + ", ".join(sorted(missing)))
-    smiles = st.text_area("Molecular SMILES", height=100, placeholder="e.g. CCO")
+    smiles = st.text_area("Molecular SMILES", height=100, placeholder="e.g. C1=CC(=CC=C1C2=CC(=O)C3=C(C=C(C=C3O2)O)O)O")
     left, right = st.columns(2)
     target = left.number_input("Target Rf", 0., 1., .50, .01, format="%.3f")
     tolerance = right.number_input("Tolerance (±)", 0., 1., 0., .01, format="%.3f")

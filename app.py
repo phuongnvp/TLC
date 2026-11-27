@@ -70,7 +70,7 @@ for smiles, names, fractions, result in st.session_state.get("history", []):
         st.metric("Predicted Rf", f"{result['Rf']:.4f}")
         st.caption(f"AttentiveFP {result['AttentiveFP']:.4f}   ·   MPNN {result['MPNN']:.4f}")
 
-smiles = st.text_area("Molecular SMILES", height=100, placeholder="e.g. CC(=O)Oc1ccccc1C(=O)O")
+smiles = st.text_area("Molecular SMILES", height=100, placeholder="e.g. C1=CC(=CC=C1C2=CC(=O)C3=C(C=C(C=C3O2)O)O)O")
 st.subheader("Mobile phase")
 available = [
     name for name in predictor.solvents
